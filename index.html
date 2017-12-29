@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+        <style type="text/css">
+
+            @keyframes fade-in {
+                from {
+                    opacity: 0;
+                }
+            }
+
+            html {
+                font: 50px "Oswald";
+                cursor: none;
+                pointer-events: none;
+                user-select: none;
+            }
+
+            body {
+                background: #000 no-repeat center;
+                background-attachment: fixed;
+                background-size: cover;
+                color: #fff;
+                margin: 0;
+                font-size: 0;
+                animation: fade-in 1s ease;
+            }
+
+            #container {
+                display: flex;
+                align-items: center;
+                align-content: center;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+            #clock {
+                text-transform: uppercase;
+                text-align: center;
+                display: inline-block;
+                margin: 0 auto;
+            }
+
+            #clock > * {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            #clock-hh,
+            #clock-mm,
+            #clock-ss,
+            .clock-pulse {
+                font-size: 7rem;
+                line-height: 280px;
+            }
+
+            #clock-hh,
+            #clock-mm,
+            #clock-ss {
+                /*width: 280px;*/
+                padding: 0 20px;
+            }
+
+            .clock-pulse {
+                opacity: 0.5;
+                transition: opacity 1s ease;
+            }
+
+            #clock.clock--tickon > .clock-pulse {
+                opacity: 1;
+            }
+
+            #clock-ampm {
+                font-size: .5rem;
+            }
+
+            #clock-ampm > * {
+                display: block;
+                opacity: 0.5;
+            }
+
+            #clock-ampm.clock-ampm--am > #clock-am,
+            #clock-ampm.clock-ampm--pm > #clock-pm {
+                opacity: 1;
+            }
+
+            #clock-date {
+                display: block;
+                font-size: .6rem;
+                margin-top: 50px;
+                margin-bottom: -50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="clock">
+                <div id="clock-hh">
+                    00
+                </div>
+                <div class="clock-pulse">:</div>
+                <div id="clock-mm">
+                    00
+                </div>
+                <div id="clock-ampm">
+                    <div id="clock-am">
+                        AM
+                    </div>
+                    <div id="clock-pm">
+                        PM
+                    </div>
+                </div>
+                <div id="clock-date">
+
+                </div>
+            </div>
+        </div>
+
+        <script
+                src="http://code.jquery.com/jquery-3.2.1.min.js"
+                crossorigin="anonymous"></script>
+        <script>
+            var $clock = $("#clock");
+            var $hh = $("#clock-hh");
+            var $mm = $("#clock-mm");
+            var $ap = $("#clock-ampm");
+            var $date = $("#clock-date");
+
+            function updateTime() {
+                var date = new Date();
+                var h = date.getHours();
+                var m = date.getMinutes();
+                var s = date.getSeconds();
+
+                $clock.toggleClass("clock--tickon");
+
+                $hh.html(h == 0 ? "12" : (h > 12 ? h - 12 : h));
+                $mm.html(m < 9 ? "0" + m : m)
+                $ap.attr("class", (h < 12 ? "clock-ampm--am" : "clock-ampm--pm"));
+                $date.html(
+                    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()]
+                    + ", "
+                    + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][date.getMonth()]
+                    + " " + date.getDate() + ", " + date.getFullYear()
+                );
+
+                setTimeout(function () {
+                    updateTime();
+                }, 1000 - date.getMilliseconds());
+            }
+
+            updateTime();
+        </script>
+    </body>
+</html>
