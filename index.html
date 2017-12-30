@@ -139,7 +139,7 @@
                 $clock.toggleClass("clock--tickon");
 
                 $hh.html(h == 0 ? "12" : (h > 12 ? h - 12 : h));
-                $mm.html(m < 9 ? "0" + m : m)
+                $mm.html(m < 10 ? "0" + m : m)
                 $ap.attr("class", (h < 12 ? "clock-ampm--am" : "clock-ampm--pm"));
                 $date.html(
                     ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()]
